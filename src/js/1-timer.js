@@ -18,39 +18,57 @@ const options = {
         backgroundColor: '#EF4040',
         position: 'topRight',
         iconUrl: './img/error.svg',
-        message: errorText,
+        message: 'Please choose a date in the future',
       });
     } else {
       buttonStart.disabled = false;
-      userSelectedDate = selectedDates[0] - Date.now();
+      userSelectedDate = selectedDates[0];
       iziToast.destroy();
     }
   },
 };
 
 let userSelectedDate;
-const errorText = 'Please choose a date in the future';
+let intervalID;
 const calendar = flatpickr('#datetime-picker', options);
-calendar.input.disabled = false;
 
 const fieldDays = document.querySelector('[data-days]');
 const fieldHours = document.querySelector('[data-hours]');
 const fieldMinutes = document.querySelector('[data-minutes]');
 const fieldSeconds = document.querySelector('[data-seconds]');
-const buttonStart = document.querySelector('[data-start]');
 
+const buttonStart = document.querySelector('[data-start]');
 buttonStart.addEventListener('click', startTimer);
+
 function startTimer() {
   buttonStart.disabled = true;
   calendar.input.disabled = true;
-  console.log(' startTimer input:', calendar.input);
-  const { day, hours, minutes, seconds } = convertMs(userSelectedDate);
 
-  fieldDays.textContent = addLeadingZero(day);
+  renderTime(userSelectedDate);
+
+  intervalID = setInterval(renderTime, 1000, userSelectedDate);
+}
+function renderTime(time) {
+  const interval = time - Date.now();
+  if (interval <= 0) {
+    clearInterval(intervalID);
+    buttonStart.disabled = false;
+    calendar.input.disabled = false;
+    iziToast.success({
+      position: 'topRight',
+      message: 'Done!',
+    });
+    return;
+  }
+
+  const { days, hours, minutes, seconds } = convertMs(interval);
+
+  fieldDays.textContent = addLeadingZero(days);
   fieldHours.textContent = addLeadingZero(hours);
   fieldMinutes.textContent = addLeadingZero(minutes);
   fieldSeconds.textContent = addLeadingZero(seconds);
 }
+
 function addLeadingZero(value) {
   return (value ?? '00').toString().padStart(2, '0');
 }
