@@ -4,7 +4,13 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const options = {
+iziToast.settings({
+  position: 'topRight',
+  iconColor: '#fff',
+  messageColor: '#fff',
+});
+
+const flatpickrOptions = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
@@ -16,8 +22,7 @@ const options = {
       buttonStart.disabled = true;
       iziToast.error({
         backgroundColor: '#EF4040',
-        position: 'topRight',
-        iconUrl: './img/error.svg',
+        iconUrl: '../img/error.svg',
         message: 'Please choose a date in the future',
       });
     } else {
@@ -30,7 +35,7 @@ const options = {
 
 let userSelectedDate;
 let intervalID;
-const calendar = flatpickr('#datetime-picker', options);
+const calendar = flatpickr('#datetime-picker', flatpickrOptions);
 
 const fieldDays = document.querySelector('[data-days]');
 const fieldHours = document.querySelector('[data-hours]');
@@ -55,7 +60,7 @@ function renderTime(time) {
     buttonStart.disabled = false;
     calendar.input.disabled = false;
     iziToast.success({
-      position: 'topRight',
+      iconUrl: '../img/Ok.svg',
       message: 'Done!',
     });
     return;
