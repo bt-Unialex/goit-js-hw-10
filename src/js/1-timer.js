@@ -32,15 +32,21 @@ const flatpickrOptions = {
     }
   },
 };
+const calendar = flatpickr('#datetime-picker', flatpickrOptions);
 
 let userSelectedDate;
 let intervalID;
-const calendar = flatpickr('#datetime-picker', flatpickrOptions);
+let sec = 1000;
 
-const fieldDays = document.querySelector('[data-days]');
-const fieldHours = document.querySelector('[data-hours]');
-const fieldMinutes = document.querySelector('[data-minutes]');
-const fieldSeconds = document.querySelector('[data-seconds]');
+const timer = document.querySelector('.timer');
+const fieldDays = timer.children[0].firstElementChild;
+// const fieldDays = document.querySelector('[data-days]');
+const fieldHours = timer.children[1].firstElementChild;
+// const fieldHours = document.querySelector('[data-hours]');
+const fieldMinutes = timer.children[2].firstElementChild;
+// const fieldMinutes = document.querySelector('[data-minutes]');
+const fieldSeconds = timer.children[3].firstElementChild;
+// const fieldSeconds = document.querySelector('[data-seconds]');
 
 const buttonStart = document.querySelector('[data-start]');
 buttonStart.addEventListener('click', startTimer);
@@ -51,7 +57,8 @@ function startTimer() {
 
   renderTime(userSelectedDate);
 
-  intervalID = setInterval(renderTime, 1000, userSelectedDate);
+  intervalID = setInterval(renderTime, sec, userSelectedDate);
+  setTimeout(surprise, 3000);
 }
 function renderTime(time) {
   const interval = time - Date.now();
@@ -63,6 +70,7 @@ function renderTime(time) {
       iconUrl: '../img/Ok.svg',
       message: 'Done!',
     });
+    timer.style.cssText = '';
     return;
   }
 
@@ -76,4 +84,32 @@ function renderTime(time) {
 
 function addLeadingZero(value) {
   return (value ?? '00').toString().padStart(2, '0');
+}
+
+const buttonFForward = document.querySelector('#datetime-picker+button+button');
+buttonFForward.addEventListener('click', fastForward);
+let multiplier = 0;
+
+function fastForward() {
+  console.log('click');
+
+  clearInterval(intervalID);
+  intervalID = setInterval(
+    renderTimeFaster,
+    Math.round(sec / 10),
+    userSelectedDate
+  );
+  timer.style.cssText = ' animation: shake 40ms infinite linear;';
+  buttonFForward.disabled = true;
+}
+function surprise() {
+  multiplier = 0;
+  buttonFForward.disabled = false;
+  buttonFForward.style.cssText =
+    'color: #fff; background-color: #4e75ff; pointer-events: all;';
+}
+function renderTimeFaster(time) {
+  const newTime = time - 0.9 * sec * multiplier;
+  multiplier += 1;
+  renderTime(newTime);
 }

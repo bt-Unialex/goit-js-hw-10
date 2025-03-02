@@ -10,6 +10,7 @@
     color: #2e2f42;
     background-color: #fff;
     padding: 16px;
+    user-select: none;
 }
 
 #datetime-picker {
@@ -36,10 +37,9 @@
     border: 1px solid #4e75ff;
 }
 
-#datetime-picker~button {
+button {
     border: none;
     border-radius: 8px;
-    min-width: 75px;
     height: 40px;
     font-family: inherit;
     font-weight: 500;
@@ -50,14 +50,24 @@
     color: #fff;
 }
 
-#datetime-picker~button:hover {
+#datetime-picker+button {
+    min-width: 75px;
+}
+
+#datetime-picker+button+button {
+    min-width: 40px;
+    color: transparent;
+    background-color: transparent;
+    pointer-events: none;
+}
+
+button:hover {
     background-color: #6c8cff;
 }
 
 #datetime-picker~button:disabled {
     color: #989898;
     background-color: #cfcfcf;
-    ;
 }
 
 .timer {
@@ -84,4 +94,14 @@
 .label {
     font-size: 16px;
     text-transform: uppercase;
+}
+
+@keyframes shake {
+    25% {
+        transform: translateY(-3px);
+    }
+
+    75% {
+        transform: translateY(3px);
+    }
 }
