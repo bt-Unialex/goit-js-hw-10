@@ -22,7 +22,7 @@ const flatpickrOptions = {
       buttonStart.disabled = true;
       iziToast.error({
         backgroundColor: '#EF4040',
-        iconUrl: 'img/error.svg',
+        iconUrl: '/img/error.svg',
         message: 'Please choose a date in the future',
       });
     } else {
@@ -67,7 +67,7 @@ function renderTime(time) {
     buttonStart.disabled = false;
     calendar.input.disabled = false;
     iziToast.success({
-      iconUrl: 'img/Ok.svg',
+      iconUrl: '/img/Ok.svg',
       message: 'Done!',
     });
     timer.style.cssText = '';
