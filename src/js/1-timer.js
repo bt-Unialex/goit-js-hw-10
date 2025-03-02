@@ -67,7 +67,7 @@ function renderTime(time) {
     buttonStart.disabled = false;
     calendar.input.disabled = false;
     iziToast.success({
-      iconUrl: 'public/img/Ok.svg',
+      iconUrl: 'img/Ok.svg',
       message: 'Done!',
     });
     timer.style.cssText = '';

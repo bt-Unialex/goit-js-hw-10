@@ -49,14 +49,14 @@ function submitHandle(event) {
   function resolveFn(reolveValue) {
     iziToast.success({
       title: 'OK',
-      iconUrl: './img/Ok.svg',
+      iconUrl: 'img/Ok.svg',
       message: `✅ Fulfilled promise in ${reolveValue}ms`,
     });
   }
   function rejectFn(rejectValue) {
     iziToast.error({
       title: 'ERROR',
-      iconUrl: '../img/error.svg',
+      iconUrl: 'img/error.svg',
       message: `❌ Rejected promise in ${rejectValue}ms`,
     });
   }
